@@ -1,0 +1,10 @@
+<form method="POST" action="{% url 'interacciones:guardar_favorito' %}" style="display:inline;">
+  {% csrf_token %}
+  <input type="hidden" name="pub_titulo"    value="{{ pub_titulo }}">
+  <input type="hidden" name="pub_categoria" value="{{ pub_categoria|default:'' }}">
+  <input type="hidden" name="next"          value="{{ next_url|default:request.path }}">
+
+  <button type="submit" class="btn btn--favorito" title="Guardar en favoritos">
+    ⭐ Guardar en favoritos
+  </button>
+</form>

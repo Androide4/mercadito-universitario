@@ -1,0 +1,76 @@
+{#
+  _navbar.html — Barra de navegación compartida
+  Se incluye en base.html con {% include "_navbar.html" %}
+  
+  Espera en el contexto (vendrá de la sesión vía middleware o context processor):
+    request.session.usuario_sesion  — dict con 'nombre' y 'correo'
+#}
+<nav class="navbar" aria-label="Navegación principal">
+  <div class="navbar__inner">
+
+    {# --- Logo / Marca --- #}
+    <a href="/" class="navbar__brand">
+      <span class="navbar__brand-icon">🛍️</span>
+      Mercadito<span>&nbsp;Universitario</span>
+    </a>
+
+    {# --- Links de navegación --- #}
+    {# NOTA PARA EL EQUIPO:
+       Los href marcados con TODO deben actualizarse con los
+       nombres de URL ('nombre_url') de cada app cuando estén listos.
+       Usar {% url 'app:nombre_vista' %} según corresponda.
+    #}
+    <ul class="navbar__links" role="list">
+      <li>
+        <a href="/"
+           {% if request.path == '/' %}class="activo"{% endif %}>
+          🏠 Inicio
+        </a>
+      </li>
+      <li>
+        {# TODO: reemplazar '#' con {% url 'publicaciones:lista' %} #}
+        <a href="#" title="Próximamente: app Publicaciones">
+          📦 Publicaciones
+        </a>
+      </li>
+      <li>
+        {# TODO: reemplazar '#' con {% url 'solicitudes:lista' %} #}
+        <a href="#" title="Próximamente: app Solicitudes">
+          🔁 Solicitudes
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'interacciones:mis_favoritos' %}"
+           {% if 'favoritos' in request.path %}class="activo"{% endif %}>
+          ⭐ Favoritos
+        </a>
+      </li>
+    </ul>
+
+    {# --- Área de usuario --- #}
+    <div class="navbar__user">
+      {% if request.session.usuario_sesion %}
+        {# Inicial del nombre para el avatar #}
+        <div class="navbar__user-badge" title="{{ request.session.usuario_sesion.correo }}">
+          {{ request.session.usuario_sesion.nombre|first|upper }}
+        </div>
+        <span>{{ request.session.usuario_sesion.nombre }}</span>
+        {#
+          TODO: reemplazar con {% url 'usuarios:logout' %} cuando esté disponible.
+          Por ahora usamos la vista demo.
+        #}
+        <a href="{% url 'interacciones:demo_logout' %}" class="navbar__logout">
+          Salir
+        </a>
+      {% else %}
+        {#
+          TODO: reemplazar con {% url 'usuarios:login' %} cuando esté disponible.
+        #}
+        <a href="{% url 'interacciones:demo_login' %}" class="btn btn--primario btn--sm">
+          Iniciar sesión
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+</nav>

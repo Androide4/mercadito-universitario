@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Mis Favoritos — Mercadito{% endblock %}
+
+{% block contenido %}
+
+  <h1 class="pagina-titulo">⭐ Mis Favoritos</h1>
+
+  {% if favoritos %}
+    <p style="color: var(--color-texto-suave); margin-bottom: 1.25rem; font-size: 0.9rem;">
+      Tienes <strong>{{ favoritos|length }}</strong> publicación{{ favoritos|length|pluralize:"es" }} guardada{{ favoritos|length|pluralize:"s" }}.
+    </p>
+
+    <div class="grid-favoritos">
+      {% for favorito in favoritos %}
+        <article class="card favorito-card">
+
+          {# Categoría como etiqueta visual #}
+          {% if favorito.publicacion.categoria %}
+            <span class="card__categoria">{{ favorito.publicacion.categoria }}</span>
+          {% endif %}
+
+          <h2 class="card__titulo">{{ favorito.publicacion.titulo }}</h2>
+
+          <div class="card__meta">
+            <span>📅 {{ favorito.fecha_agregado|date:"d/m/Y" }}</span>
+          </div>
+
+          <div class="favorito-card__acciones">
+            {#
+              Parcial reutilizable: botón para eliminar favorito.
+              Se usa include para poder insertarlo también desde otras apps.
+            #}
+            {% include "interacciones/partials/_eliminar_favorito_btn.html" with favorito=favorito %}
+          </div>
+
+        </article>
+      {% endfor %}
+    </div>
+
+  {% else %}
+    {# Estado vacío: no hay favoritos aún #}
+    <div class="estado-vacio">
+      <div class="estado-vacio__icono">⭐</div>
+      <p class="estado-vacio__titulo">Aún no tienes favoritos</p>
+      <p class="estado-vacio__desc">
+        Cuando encuentres una publicación que te interese,<br>
+        guárdala aquí con el botón ⭐.
+      </p>
+    </div>
+  {% endif %}
+
+{% endblock %}

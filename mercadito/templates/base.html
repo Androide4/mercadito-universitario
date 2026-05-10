@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Mercadito Universitario{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'interacciones/css/style.css' %}">
+  {% block css_extra %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar" aria-label="Navegación principal">
+  <div class="navbar__inner">
+    <a href="/" class="navbar__brand">
+      <span class="navbar__brand-icon">🛍️</span>
+      Mercadito<span>&nbsp;Universitario</span>
+    </a>
+    <ul class="navbar__links" role="list">
+      <li><a href="/" {% if request.path == '/' %}class="activo"{% endif %}>🏠 Inicio</a></li>
+      <li><a href="#">📦 Publicaciones</a></li>
+      <li><a href="#">🔁 Solicitudes</a></li>
+      <li>
+        <a href="{% url 'interacciones:mis_favoritos' %}"
+           {% if 'favoritos' in request.path %}class="activo"{% endif %}>⭐ Favoritos</a>
+      </li>
+    </ul>
+    <div class="navbar__user">
+      {% if request.session.usuario_sesion %}
+        <div class="navbar__user-badge">{{ request.session.usuario_sesion.nombre|first|upper }}</div>
+        <span>{{ request.session.usuario_sesion.nombre }}</span>
+        <a href="{% url 'interacciones:demo_logout' %}" class="navbar__logout">Salir</a>
+      {% else %}
+        <a href="{% url 'interacciones:demo_login' %}" class="btn btn--primario btn--sm">Iniciar sesión</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+  <div class="mensajes" role="alert">
+    {% for mensaje in messages %}
+      <div class="mensaje mensaje--{{ mensaje.tags }}">
+        {% if mensaje.tags == 'success' %}✅{% elif mensaje.tags == 'warning' %}⚠️{% elif mensaje.tags == 'error' %}❌{% else %}ℹ️{% endif %}
+        {{ mensaje }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<main class="contenido-principal">
+  {% block contenido %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <p>🎓 Mercadito Universitario de Intercambio &mdash; Proyecto Académico &copy; 2025</p>
+  <p style="margin-top:0.25rem;font-size:0.78rem;opacity:0.7;">Hecho con 💙 por el equipo de desarrollo</p>
+</footer>
+
+{% block scripts_extra %}{% endblock %}
+<script>
+  document.querySelectorAll('.form-textarea[maxlength]').forEach(function(ta) {
+    var max = ta.getAttribute('maxlength');
+    var counter = ta.parentElement.querySelector('.form-char-count');
+    if (counter) { ta.addEventListener('input', function() { counter.textContent = this.value.length + ' / ' + max; }); }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Comentarios — {{ pub_titulo }} — Mercadito{% endblock %}
+
+{% block contenido %}
+
+  <a href="javascript:history.back()"
+     style="display:inline-flex;align-items:center;gap:0.3rem;margin-bottom:1rem;
+            font-size:0.88rem;color:var(--color-texto-suave);">
+    ← Volver
+  </a>
+
+  <h1 class="pagina-titulo">💬 Comentarios</h1>
+  <p style="color:var(--color-texto-suave);margin-bottom:1.5rem;">
+    Publicación: <strong>{{ pub_titulo }}</strong>
+  </p>
+
+  {% if usuario %}
+    {% include "interacciones/partials/_comentario_form.html" with pub_titulo=pub_titulo next_url=request.get_full_path %}
+  {% else %}
+    <div class="seccion-comentar" style="text-align:center;color:var(--color-texto-suave);">
+      <a href="{% url 'interacciones:demo_login' %}">Inicia sesión</a>
+      para dejar un comentario.
+    </div>
+  {% endif %}
+
+  {% include "interacciones/partials/_comentarios.html" with comentarios=comentarios %}
+
+{% endblock %}
