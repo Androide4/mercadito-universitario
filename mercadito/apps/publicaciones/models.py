@@ -58,5 +58,11 @@ class Publicacion(models.Model):
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = "publicaciones"
+        ordering = ["-fecha_publicacion"]
+        verbose_name = "Publicación"
+        verbose_name_plural = "Publicaciones"
+
     def __str__(self):
         return self.titulo
