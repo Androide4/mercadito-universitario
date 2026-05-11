@@ -67,14 +67,6 @@ def crear_publicacion(request):
 
 
 def editar_publicacion(request, publicacion_id):
-    """
-    GET  → muestra el formulario pre-relleno con los datos actuales.
-    POST → valida y actualiza la publicación en la base de datos.
-
-    Por qué se pre-rellena el formulario manualmente:
-      - Se usa forms.Form (no ModelForm), por lo que los datos iniciales
-        deben cargarse explícitamente desde la instancia del modelo.
-    """
     publicacion = get_object_or_404(Publicacion, id=publicacion_id)
 
     if request.method == "GET":
