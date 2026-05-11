@@ -10,6 +10,8 @@ urlpatterns = [
     path('publicaciones/', include('apps.publicaciones.urls')),
     path('interacciones/', include('apps.interacciones.urls')),
     path('accounts/', include('apps.accounts.urls')),
+    path('solicitudes/', include('apps.solicitudes.urls')
+    ),
 ]
 
 if settings.DEBUG:

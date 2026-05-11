@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Solicitud</title>
+
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .contenedor{
+            width: 400px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        form p{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        input,
+        textarea{
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        button{
+            width: 100%;
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .acciones{
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .acciones a{
+            text-decoration: none;
+        }
+
+        .errorlist{
+            color: red;
+            margin: 0;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="contenedor">
+
+    <div class="acciones">
+
+        <a href="{% url 'lista_solicitudes' %}">
+            Ver Solicitudes
+        </a>
+
+    </div>
+
+    <h1>Enviar Solicitud</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Enviar Solicitud
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
