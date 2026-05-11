@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 urlpatterns = [
+    path("", include("apps.interacciones.urls")),
     path('admin/', admin.site.urls),
     path('publicaciones/', include('apps.publicaciones.urls')),
     path('interacciones/', include('apps.interacciones.urls')),

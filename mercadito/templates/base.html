@@ -18,7 +18,7 @@
     </a>
     <ul class="navbar__links" role="list">
       <li><a href="/" {% if request.path == '/' %}class="activo"{% endif %}>🏠 Inicio</a></li>
-      <li><a href="#">📦 Publicaciones</a></li>
+      <li><a href="{% url 'listar_publicaciones' %}">📦 Publicaciones</a></li>
       <li><a href="#">🔁 Solicitudes</a></li>
       <li>
         <a href="{% url 'interacciones:mis_favoritos' %}"
