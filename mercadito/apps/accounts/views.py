@@ -50,7 +50,7 @@ def login_view(request):
 
                 request.session['usuario_id'] = str(usuario.id)
 
-                return redirect('profile')
+                return redirect('interacciones:home')
 
             else:
 

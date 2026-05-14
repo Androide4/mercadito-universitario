@@ -1,5 +1,8 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends "base.html" %}
+
+{% block titulo %}Login - Mercadito{% endblock %}
+
+{% block contenido %}
 
 <h1>Login</h1>
 
@@ -15,9 +18,12 @@
         Ingresar
     </button>
 
+    <a href="{% url 'register' %}">Registrarse</a>
+
 </form>
 
 {% if error %}
-    <p>{{ error }}</p>
+<p>{{ error }}</p>
 {% endif %}
+
 {% endblock %}

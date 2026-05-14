@@ -17,9 +17,9 @@
       Mercadito<span>&nbsp;Universitario</span>
     </a>
     <ul class="navbar__links" role="list">
-      <li><a href="/" {% if request.path == '/' %}class="activo"{% endif %}>🏠 Inicio</a></li>
+      <li><a href="{% url 'interacciones:home' %}">🏠 Inicio</a></li>
       <li><a href="{% url 'listar_publicaciones' %}">📦 Publicaciones</a></li>
-      <li><a href="#">🔁 Solicitudes</a></li>
+      <li><a href="{% url 'lista_solicitudes' %}">🔁 Solicitudes</a></li>
       <li>
         <a href="{% url 'interacciones:mis_favoritos' %}"
            {% if 'favoritos' in request.path %}class="activo"{% endif %}>⭐ Favoritos</a>
@@ -27,11 +27,13 @@
     </ul>
     <div class="navbar__user">
       {% if request.session.usuario_sesion %}
-        <div class="navbar__user-badge">{{ request.session.usuario_sesion.nombre|first|upper }}</div>
+        <div class="navbar__user-badge">
+          <a href="{% url 'profile' %}">{{ request.session.usuario_sesion.nombre|first|upper }}</a>
+        </div>
         <span>{{ request.session.usuario_sesion.nombre }}</span>
         <a href="{% url 'interacciones:demo_logout' %}" class="navbar__logout">Salir</a>
       {% else %}
-        <a href="{% url 'interacciones:demo_login' %}" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <a href="{% url 'login' %}" class="btn btn--primario btn--sm">Iniciar sesión</a>
       {% endif %}
     </div>
   </div>

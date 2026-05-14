@@ -5,13 +5,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", include("apps.interacciones.urls")),
+    path("", include("apps.accounts.urls")),
     path('admin/', admin.site.urls),
     path('publicaciones/', include('apps.publicaciones.urls')),
     path('interacciones/', include('apps.interacciones.urls')),
+    path('solicitudes/', include('apps.solicitudes.urls')),
     path('accounts/', include('apps.accounts.urls')),
-    path('solicitudes/', include('apps.solicitudes.urls')
-    ),
 ]
 
 if settings.DEBUG:

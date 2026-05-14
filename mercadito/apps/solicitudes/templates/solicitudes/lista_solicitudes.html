@@ -1,53 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista Solicitudes</title>
+{% extends "base.html" %}
 
-    <style>
+{% block titulo %}Lista de Solicitudes - Mercadito{% endblock %}
 
-        body{
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
+{% block contenido %}
 
-        .contenedor{
-            width: 700px;
-            margin: 40px auto;
-        }
-
-        .top{
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .top a{
-            text-decoration: none;
-            background-color: green;
-            color: white;
-            padding: 10px 15px;
-        }
-
-        .card{
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-
-        .botones{
-            margin-top: 15px;
-        }
-
-        .botones a{
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-    </style>
-
-</head>
-<body>
+<title>Lista Solicitudes</title>
 
 <div class="contenedor">
 
@@ -125,5 +82,4 @@
 
 </div>
 
-</body>
-</html>
+{% endblock %}

@@ -5,9 +5,14 @@ from django.conf import settings
 from .models import Publicacion
 from .forms import PublicacionForm
 from .utils import guardar_imagen
-
+from apps.interacciones import services
 
 def listar_publicaciones(request):
+    usuario = services.get_usuario_sesion(request)
+    if not usuario:
+        messages.warning(request, 'Debes iniciar sesión para ver tus favoritos.')
+        return redirect('/')
+    
     publicaciones = Publicacion.objects.filter(
         estado_publicacion=Publicacion.EstadoPublicacionChoices.ACTIVA
     ).order_by('-fecha_publicacion')

@@ -5,6 +5,7 @@ class Favorito(models.Model):
     publicacion = models.JSONField(default=dict)
     fecha_agregado = models.DateTimeField(auto_now_add=True)
     class Meta:
+        db_table = 'favoritos'
         ordering = ['-fecha_agregado']
         verbose_name = "Favorito"
         verbose_name_plural = "Favoritos"
@@ -27,6 +28,7 @@ class Comentario(models.Model):
         default=EstadoComentarioChoices.VISIBLE
     )
     class Meta:
+        db_table = 'comentarios'
         ordering = ['-fecha_comentario']
         verbose_name = "Comentario"
         verbose_name_plural = "Comentarios"

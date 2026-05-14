@@ -5,12 +5,12 @@ app_name = 'interacciones'
 
 urlpatterns = [
     # --- Pagina de inicio ---
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
 
     # --- Favoritos ---
     path('favoritos/', views.mis_favoritos, name='mis_favoritos'),
     path('favoritos/guardar/', views.guardar_favorito, name='guardar_favorito'),
-    path('favoritos/eliminar/<int:favorito_id>/', views.eliminar_favorito, name='eliminar_favorito'),
+    path('favoritos/eliminar/<str:favorito_id>/', views.eliminar_favorito, name='eliminar_favorito'),
 
     # --- Comentarios ---
     path('comentarios/', views.ver_comentarios, name='ver_comentarios'),
