@@ -1,0 +1,28 @@
+<section class="seccion-comentar">
+  <h3>💬 Deja un comentario</h3>
+
+  <form method="POST" action="{% url 'interacciones:comentar_publicacion' %}">
+    {% csrf_token %}
+
+    <input type="hidden" name="pub_titulo"    value="{{ pub_titulo }}">
+    <input type="hidden" name="pub_categoria" value="{{ pub_categoria|default:'' }}">
+    <input type="hidden" name="next"          value="{{ next_url|default:request.path }}">
+
+    <div style="margin-bottom:0.5rem;">
+      <textarea
+        name="texto"
+        class="form-textarea"
+        maxlength="300"
+        minlength="2"
+        rows="3"
+        placeholder="Escribe tu comentario (máx. 300 caracteres)..."
+        required
+      ></textarea>
+      <p class="form-char-count">0 / 300</p>
+    </div>
+
+    <button type="submit" class="btn btn--primario">
+      ✉️ Publicar comentario
+    </button>
+  </form>
+</section>

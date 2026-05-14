@@ -35,5 +35,8 @@ class Usuario(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     ultima_sesion = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        db_table = 'usuarios'
+
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.correo}"

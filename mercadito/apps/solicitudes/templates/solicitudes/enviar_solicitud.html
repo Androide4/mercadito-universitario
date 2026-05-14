@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block titulo %}Enviar Solicitud - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<title>Enviar Solicitud</title>
+
+<div class="contenedor">
+
+    <div class="acciones">
+
+        <a href="{% url 'lista_solicitudes' %}">
+            Ver Solicitudes
+        </a>
+
+    </div>
+
+    <h1>Enviar Solicitud</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Enviar Solicitud
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

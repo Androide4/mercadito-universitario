@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block titulo %}Lista de Solicitudes - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<title>Lista Solicitudes</title>
+
+<div class="contenedor">
+
+    <div class="top">
+
+        <a href="{% url 'enviar_solicitud' %}">
+            Nueva Solicitud
+        </a>
+
+    </div>
+
+    <h1>Lista de Solicitudes</h1>
+
+    {% for solicitud in solicitudes %}
+
+        <div class="card">
+
+            <h2>
+                {{ solicitud.publicacion.titulo }}
+            </h2>
+
+            <p>
+                <strong>Categoría:</strong>
+                {{ solicitud.publicacion.categoria }}
+            </p>
+
+            <p>
+                <strong>Solicitante:</strong>
+                {{ solicitud.solicitante.nombre }}
+            </p>
+
+            <p>
+                <strong>Correo:</strong>
+                {{ solicitud.solicitante.correo }}
+            </p>
+
+            <p>
+                <strong>Estado:</strong>
+                {{ solicitud.estado_solicitud }}
+            </p>
+
+            <p>
+                {{ solicitud.mensaje }}
+            </p>
+
+            {% if solicitud.estado_solicitud == 'pendiente' %}
+
+                <div class="botones">
+
+                    <a href="{% url 'aceptar_solicitud' solicitud.id %}">
+                        Aceptar
+                    </a>
+
+                    <a href="{% url 'rechazar_solicitud' solicitud.id %}">
+                        Rechazar
+                    </a>
+
+                    <a href="{% url 'cancelar_solicitud' solicitud.id %}">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <p>
+                    Solicitud procesada
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

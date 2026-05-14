@@ -21,5 +21,8 @@ class SolicitudIntercambio(models.Model):
     fecha_respuesta = models.DateTimeField(null=True, blank=True)
     respuesta = models.TextField(null=True, blank=True)
 
+    class Meta:
+        db_table = 'solicitudes'
+
     def __str__(self):
         return f"Solicitud - {self.estado_solicitud}"

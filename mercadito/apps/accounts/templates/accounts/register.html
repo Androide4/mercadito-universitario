@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titulo %}Registro - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<h1>Registro</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Registrarse
+    </button>
+
+</form>
+
+{% endblock %}

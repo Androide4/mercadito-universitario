@@ -1,0 +1,9 @@
+<form method="POST"
+      action="{% url 'interacciones:eliminar_favorito' favorito.id %}"
+      onsubmit="return confirm('¿Eliminar este favorito?');"
+      style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn--peligro btn--sm" title="Eliminar favorito">
+    🗑️ Eliminar
+  </button>
+</form>

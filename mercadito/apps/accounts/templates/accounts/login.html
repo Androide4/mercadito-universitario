@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block titulo %}Login - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<h1>Login</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <input type="email" name="correo" placeholder="Correo">
+
+    <input type="password" name="password" placeholder="Contraseña">
+
+    <button type="submit">
+        Ingresar
+    </button>
+
+    <a href="{% url 'register' %}">Registrarse</a>
+
+</form>
+
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+
+{% endblock %}
