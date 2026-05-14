@@ -49,6 +49,10 @@ def login_view(request):
             if check_password(password, usuario.password):
 
                 request.session['usuario_id'] = str(usuario.id)
+                request.session['usuario_sesion'] = {
+                    'nombre': usuario.nombre,
+                    'correo': usuario.correo,
+                }
 
                 return redirect('interacciones:home')
 
