@@ -9,8 +9,8 @@
     <div class="detalle-header">
         <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline btn-sm">← Volver al listado</a>
         <div class="detalle-acciones">
-            <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-secondary btn-sm">✏️ Editar</a>
-            <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
+            <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm" id="boton-crear">Editar</a>
+            <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm" id="boton-eliminar">Eliminar</a>
         </div>
     </div>
 
@@ -42,7 +42,7 @@
             <h1 class="detalle-titulo">{{ publicacion.titulo }}</h1>
 
             {% if publicacion.precio_referencial %}
-            <p class="precio grande">💲 {{ publicacion.precio_referencial }}</p>
+            <p class="precio grande">{{ publicacion.precio_referencial }}</p>
             {% endif %}
 
             <div class="seccion">
@@ -80,14 +80,14 @@
 
             <div class="seccion autor-card">
                 <h2>Publicado por</h2>
-                <p><strong>👤 {{ publicacion.autor.nombre }}</strong></p>
-                <p>📧 {{ publicacion.autor.correo }}</p>
+                <p><strong>{{ publicacion.autor.nombre }}</strong></p>
+                <p>{{ publicacion.autor.correo }}</p>
                 {% if publicacion.autor.carrera %}
-                <p>🎓 {{ publicacion.autor.carrera }}</p>
+                <p>{{ publicacion.autor.carrera }}</p>
                 {% endif %}
-                <p class="fecha-pub">📅 Publicado: {{ publicacion.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+                <p class="fecha-pub">Publicado: {{ publicacion.fecha_publicacion|date:"d/m/Y H:i" }}</p>
                 {% if publicacion.fecha_actualizacion %}
-                <p class="fecha-pub">🔄 Actualizado: {{ publicacion.fecha_actualizacion|date:"d/m/Y H:i" }}</p>
+                <p class="fecha-pub">Actualizado: {{ publicacion.fecha_actualizacion|date:"d/m/Y H:i" }}</p>
                 {% endif %}
             </div>
 

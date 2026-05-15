@@ -7,9 +7,9 @@
 <div class="form-container">
     <div class="form-header">
         <a href="{% url 'detalle_publicacion' publicacion.id %}" class="btn btn-outline btn-sm">
-            ← Cancelar y Volver al Detalle
+            Cancelar y Volver al Detalle
         </a>
-        <h1>✏️ Editar Publicación</h1>
+        <h1>Editar Publicación</h1>
         <p>Modifica la información de tu publicación <strong>"{{ publicacion.titulo }}"</strong>.</p>
     </div>
 
@@ -31,7 +31,7 @@
         {% csrf_token %}
 
         <div class="form-section">
-            <h2>📌 Información General</h2>
+            <h2>Información General</h2>
 
             <div class="form-group">
                 <label for="{{ formulario.titulo.id_for_label }}">
@@ -95,7 +95,7 @@
         </div>
 
         <div class="form-section">
-            <h2>📍 Ubicación y Etiquetas</h2>
+            <h2>Ubicación y Etiquetas</h2>
 
             <div class="form-group">
                 <label for="{{ formulario.ubicacion_entrega.id_for_label }}">
@@ -118,7 +118,7 @@
         </div>
 
         <div class="form-section">
-            <h2>🖼️ Imágenes</h2>
+            <h2>Imágenes</h2>
 
             <div class="imagenes-actuales" style="margin-bottom: 20px;">
                 <label>Imágenes actuales:</label>
@@ -148,7 +148,7 @@
                 Cancelar
             </a>
             <button type="submit" class="btn btn-success">
-                💾 Actualizar Publicación
+                Actualizar Publicación
             </button>
         </div>
     </form>
