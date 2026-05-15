@@ -96,4 +96,22 @@
 
 </div>
 
+<!-- INTERACCIONES: Favoritos + Comentarios -->
+<!-- Favorito -->
+{% include "interacciones/partials/_favorito_btn.html" with 
+    pub_id=publicacion.id 
+    pub_titulo=publicacion.titulo 
+    pub_categoria=publicacion.categoria 
+    next=request.path %}
+
+<!-- Formulario de comentario -->
+{% include "interacciones/partials/_comentario_form.html" with 
+    pub_id=publicacion.id 
+    pub_titulo=publicacion.titulo 
+    pub_categoria=publicacion.categoria 
+    next_url=request.path %}
+
+<!-- Lista de comentarios -->
+{% include "interacciones/partials/_comentarios.html" with comentarios=comentarios %}
+
 {% endblock %}

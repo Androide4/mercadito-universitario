@@ -17,7 +17,29 @@
   </p>
 
   {% if usuario %}
-    {% include "interacciones/partials/_comentario_form.html" with pub_titulo=pub_titulo next_url=request.get_full_path %}
+    <!-- FORMULARIO DIRECTO (temporal) -->
+    <div class="seccion-comentar">
+        <h3>💬 Deja un comentario</h3>
+
+        <form method="post" action="{% url 'interacciones:comentar_publicacion' %}">
+            {% csrf_token %}
+
+            <input type="hidden" name="pub_id" value="{{ pub_id|default:'' }}">
+            <input type="hidden" name="pub_titulo" value="{{ pub_titulo }}">
+            <input type="hidden" name="pub_categoria" value="{{ pub_categoria|default:'' }}">
+            <input type="hidden" name="next" value="{{ request.path }}">
+
+            <textarea name="texto" rows="4" class="form-textarea" 
+                      placeholder="Escribe tu comentario (máx. 300 caracteres)..." 
+                      maxlength="300" required></textarea>
+
+            <div class="form-char-count" id="char-count">0 / 300</div>
+
+            <button type="submit" class="btn btn--primario" style="margin-top: 1rem;">
+                ✉️ Publicar comentario
+            </button>
+        </form>
+    </div>
   {% else %}
     <div class="seccion-comentar" style="text-align:center;color:var(--color-texto-suave);">
       <a href="{% url 'interacciones:demo_login' %}">Inicia sesión</a>

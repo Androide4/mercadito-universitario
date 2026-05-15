@@ -1,3 +1,4 @@
+from decimal import Decimal
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -24,7 +25,15 @@ def listar_publicaciones(request):
 
 def detalle_publicacion(request, publicacion_id):
     publicacion = get_object_or_404(Publicacion, id=publicacion_id)
-    data = {"publicacion": publicacion}
+    
+    # Usando servicio (respetando la regla del proyecto)
+    comentarios = services.get_comentarios_por_publicacion(pub_id=publicacion_id)
+
+    data = {
+        "publicacion": publicacion,
+        "comentarios": comentarios,
+        "usuario": services.get_usuario_sesion(request),
+    }
     return render(request, "detalle_publicacion.html", data)
 
 

@@ -19,4 +19,9 @@ urlpatterns = [
     # --- Demo (solo desarrollo) ---
     path('demo/login/', views.demo_login, name='demo_login'),
     path('demo/logout/', views.demo_logout, name='demo_logout'),
+
+    #-------
+    path('comentarios/nuevo/', views.comentar_publicacion, name='comentar_publicacion'),
+    path('comentarios/<str:comentario_id>/editar/', views.editar_comentario, name='editar_comentario'),
+    path('comentarios/<str:comentario_id>/eliminar/', views.eliminar_comentario, name='eliminar_comentario'),
 ]
