@@ -5,8 +5,8 @@
 {% block contenido %}
 
 <section class="page-header">
-    <h1>📦 Publicaciones del Mercadito</h1>
-    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary">+ Nueva publicación</a>
+    <h1>Publicaciones del Mercadito</h1>
+    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary">Nueva publicación</a>
 </section>
 
 
@@ -19,7 +19,7 @@
                 {% if pub.imagenes %}
                     <img src="{{ pub.imagenes.0 }}" alt="{{ pub.titulo }}">
                 {% else %}
-                    <div class="sin-imagen">📷 Sin imagen</div>
+                    <div class="sin-imagen">Sin imagen</div>
                 {% endif %}
             </div>
 
@@ -32,12 +32,12 @@
                 <p class="tarjeta-descripcion">{{ pub.descripcion|truncatechars:100 }}</p>
 
                 <div class="tarjeta-meta">
-                    <span>🧍 {{ pub.get_autor_nombre }}</span>
-                    <span>📍 {% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
+                    <span>{{ pub.get_autor_nombre }}</span>
+                    <span>{% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
                 </div>
 
                 {% if pub.precio_referencial %}
-                    <p class="precio">💲 {{ pub.precio_referencial }}</p>
+                    <p class="precio">{{ pub.precio_referencial }}</p>
                 {% endif %}
 
                 <a href="{% url 'detalle_publicacion' pub.id %}" class="btn btn-primary btn-sm">Ver detalle</a>
@@ -49,7 +49,7 @@
 
 {% else %}
     <div class="sin-resultados">
-        <p>😕 No se encontraron publicaciones.</p>
+        <p>No se encontraron publicaciones.</p>
         <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline">Ver todas</a>
     </div>
 {% endif %}
