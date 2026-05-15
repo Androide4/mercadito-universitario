@@ -9,8 +9,8 @@
     <div class="detalle-header">
         <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline btn-sm">← Volver al listado</a>
         <div class="detalle-acciones">
-            <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-secondary btn-sm">Editar</a>
-            <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+            <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm" id="boton-crear">Editar</a>
+            <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm" id="boton-eliminar">Eliminar</a>
         </div>
     </div>
 

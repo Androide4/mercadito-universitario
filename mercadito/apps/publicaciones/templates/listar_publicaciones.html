@@ -5,8 +5,8 @@
 {% block contenido %}
 
 <section class="page-header">
-    <h1>Publicaciones del Mercadito</h1>
-    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary">Nueva publicación</a>
+    <h1 class="page-title">Publicaciones del Mercadito</h1>
+    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary" id="boton-crear">Nueva publicación</a>
 </section>
 
 
@@ -32,7 +32,7 @@
                 <p class="tarjeta-descripcion">{{ pub.descripcion|truncatechars:100 }}</p>
 
                 <div class="tarjeta-meta">
-                    <span>{{ pub.get_autor_nombre }}</span>
+                    <span>{{ pub.autor.nombre|default:"Autor desconocido" }}</span>
                     <span>{% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
                 </div>
 
@@ -40,7 +40,7 @@
                     <p class="precio">{{ pub.precio_referencial }}</p>
                 {% endif %}
 
-                <a href="{% url 'detalle_publicacion' pub.id %}" class="btn btn-primary btn-sm">Ver detalle</a>
+                <a href="{% url 'detalle_publicacion' pub.id %}" class="btn btn-primary btn-sm" id="boton-crear">Ver detalle</a>
             </div>
 
         </div>
