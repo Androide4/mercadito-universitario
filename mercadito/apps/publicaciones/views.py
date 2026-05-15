@@ -40,10 +40,12 @@ def crear_publicacion(request):
     if formulario.is_valid():
         datos = formulario.cleaned_data
 
+        nombre_completo = f"{request.session['usuario_sesion']['nombre']} {request.session['usuario_sesion']['apellido']}"
+
         autor = {
-            "nombre": datos["autor_nombre"],
-            "correo": datos["autor_correo"],
-            "carrera": datos.get("autor_carrera") or None,
+            "nombre": nombre_completo,
+            "correo": request.session['usuario_sesion']['correo'],
+            "carrera": request.session.get('usuario_sesion', {}).get('carrera'),
         }
 
         imagenes = []
@@ -68,6 +70,8 @@ def crear_publicacion(request):
         messages.success(request, "¡Publicación creada exitosamente!")
         return redirect("listar_publicaciones")
 
+    print(formulario.errors)
+    messages.error(request, "Hubo un error al crear la publicación. Por favor, verifica los datos ingresados.")
     return render(request, "crear_publicacion.html", {"formulario": formulario})
 
 

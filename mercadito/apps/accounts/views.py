@@ -51,7 +51,9 @@ def login_view(request):
                 request.session['usuario_id'] = str(usuario.id)
                 request.session['usuario_sesion'] = {
                     'nombre': usuario.nombre,
+                    'apellido': usuario.apellido,
                     'correo': usuario.correo,
+                    'carrera': usuario.carrera,
                 }
 
                 return redirect('interacciones:home')
