@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titulo %}Eliminar {{ publicacion.titulo }} - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<div class="detalle-container">
+
+    <div class="detalle-header">
+        <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline btn-sm">← Volver al listado</a>
+    </div>
+
+    <div class="seccion" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+        
+        <span class="badge badge-danger" style="font-size: 1rem; margin-bottom: 20px;">⚠️ Acción Destructiva</span>
+        
+        <h1 class="detalle-titulo">¿Confirmas la eliminación?</h1>
+        
+        <p style="font-size: 1.1rem; margin-bottom: 30px;">
+            Estás a punto de borrar definitivamente la publicación:<br>
+            <strong>"{{ publicacion.titulo }}"</strong>
+        </p>
+
+        <div style="margin-bottom: 30px;">
+            {% if publicacion.imagenes %}
+                <img src="{{ publicacion.imagenes.0 }}" alt="" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+            {% else %}
+                <div class="sin-imagen" style="width: 150px; height: 150px; margin: 0 auto; display: flex; align-items: center; justify-content: center;">📷</div>
+            {% endif %}
+        </div>
+
+        <div class="detalle-acciones" style="display: flex; justify-content: center; gap: 15px;">
+            <a href="{% url 'listar_publicaciones' %}" class="btn btn-secondary">
+                No, cancelar
+            </a>
+
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    🗑️ Sí, eliminar publicación
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

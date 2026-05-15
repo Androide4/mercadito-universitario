@@ -1,7 +1,6 @@
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.conf import settings
 from .models import Publicacion
 from .forms import PublicacionForm
 from .utils import guardar_imagen
@@ -89,9 +88,6 @@ def editar_publicacion(request, publicacion_id):
             "estado_publicacion": publicacion.estado_publicacion,
             "ubicacion_entrega": publicacion.ubicacion_entrega,
             "tags": ", ".join(publicacion.tags) if publicacion.tags else "",
-            "autor_nombre": publicacion.autor.get("nombre", ""),
-            "autor_correo": publicacion.autor.get("correo", ""),
-            "autor_carrera": publicacion.autor.get("carrera", ""),
         }
         formulario = PublicacionForm(initial=datos_iniciales)
         return render(request, "editar_publicacion.html", {
@@ -113,11 +109,6 @@ def editar_publicacion(request, publicacion_id):
         publicacion.estado_publicacion = datos["estado_publicacion"]
         publicacion.ubicacion_entrega = datos.get("ubicacion_entrega") or None
         publicacion.tags = datos["tags"]
-        publicacion.autor = {
-            "nombre": datos["autor_nombre"],
-            "correo": datos["autor_correo"],
-            "carrera": datos.get("autor_carrera") or None,
-        }
 
         if "imagen" in request.FILES:
             ruta = guardar_imagen(request.FILES["imagen"])

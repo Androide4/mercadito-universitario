@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ publicacion.titulo }} - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<div class="detalle-container">
+
+    <div class="detalle-header">
+        <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline btn-sm">← Volver al listado</a>
+        <div class="detalle-acciones">
+            <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-secondary btn-sm">✏️ Editar</a>
+            <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
+        </div>
+    </div>
+
+    <div class="detalle-grid">
+
+        <div class="detalle-imagenes">
+            {% if publicacion.imagenes %}
+            {% for imagen in publicacion.imagenes %}
+            <img src="{{ imagen }}" alt="{{ publicacion.titulo }}" class="detalle-img">
+            {% endfor %}
+            {% else %}
+            <div class="sin-imagen grande">📷 Sin imágenes</div>
+            {% endif %}
+        </div>
+
+        <div class="detalle-info">
+
+            <div class="badges-grupo">
+                <span class="badge badge-{{ publicacion.tipo_intercambio }}">
+                    {{ publicacion.get_tipo_intercambio_display }}
+                </span>
+                <span class="badge badge-categoria">{{ publicacion.get_categoria_display }}</span>
+                <span class="badge badge-estado-art">{{ publicacion.get_estado_articulo_display }}</span>
+                <span class="badge badge-pub-{{ publicacion.estado_publicacion }}">
+                    {{ publicacion.get_estado_publicacion_display }}
+                </span>
+            </div>
+
+            <h1 class="detalle-titulo">{{ publicacion.titulo }}</h1>
+
+            {% if publicacion.precio_referencial %}
+            <p class="precio grande">💲 {{ publicacion.precio_referencial }}</p>
+            {% endif %}
+
+            <div class="seccion">
+                <h2>Descripción</h2>
+                <p>{{ publicacion.descripcion }}</p>
+            </div>
+
+            <div class="seccion">
+                <h2>Información del artículo</h2>
+                <ul class="info-lista">
+                    <li><strong>Categoría:</strong> {{ publicacion.get_categoria_display }}</li>
+                    <li><strong>Estado:</strong> {{ publicacion.get_estado_articulo_display }}</li>
+                    <li><strong>Tipo:</strong> {{ publicacion.get_tipo_intercambio_display }}</li>
+                    <li>
+                        <strong>Lugar de entrega:</strong>
+                        {% if publicacion.ubicacion_entrega %}
+                        {{ publicacion.ubicacion_entrega }}
+                        {% else %}
+                        No especificado
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+
+            {% if publicacion.tags %}
+            <div class="seccion">
+                <h2>Palabras clave</h2>
+                <div class="tags-grupo">
+                    {% for tag in publicacion.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="seccion autor-card">
+                <h2>Publicado por</h2>
+                <p><strong>👤 {{ publicacion.autor.nombre }}</strong></p>
+                <p>📧 {{ publicacion.autor.correo }}</p>
+                {% if publicacion.autor.carrera %}
+                <p>🎓 {{ publicacion.autor.carrera }}</p>
+                {% endif %}
+                <p class="fecha-pub">📅 Publicado: {{ publicacion.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+                {% if publicacion.fecha_actualizacion %}
+                <p class="fecha-pub">🔄 Actualizado: {{ publicacion.fecha_actualizacion|date:"d/m/Y H:i" }}</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

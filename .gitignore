@@ -1,0 +1,15 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Ignorar solo el entorno virtual
+.venv/
+venv/
+env/
+Lib/
+Include/
+Scripts/
+
+# Ignorar archivos temporales de Python
+**/__pycache__/
+*.pyc
+
+# Ignorar la base de datos local
+db.sqlite3
