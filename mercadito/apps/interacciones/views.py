@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+from django.urls import reverse   # ← Agrega esta línea
 from .models import Favorito, Comentario
 from .forms import ComentarioForm
 from . import services
@@ -67,7 +67,7 @@ def guardar_favorito(request):
     else:
         Favorito.objects.create(
             usuario={
-                'id':      usuario.get('id', ''),
+                'id':      request.session['usuario_id'],
                 'nombre':  usuario.get('nombre', ''),
                 'correo':  usuario['correo'],
             },
@@ -134,18 +134,24 @@ def comentar_publicacion(request):
     usuario = services.get_usuario_sesion(request)
     if not usuario:
         messages.warning(request, 'Debes iniciar sesión para comentar.')
-        return redirect('login')
+        return redirect('interacciones:demo_login')
 
     formulario = ComentarioForm(request.POST)
     next_url = request.POST.get('next', '/')
 
     if formulario.is_valid():
-        publicacion = {'titulo': formulario.cleaned_data['pub_titulo']}
-        if formulario.cleaned_data.get('pub_categoria'):
-            publicacion['categoria'] = formulario.cleaned_data['pub_categoria']
+        pub_id = request.POST.get('pub_id', '').strip()
+        pub_titulo = formulario.cleaned_data['pub_titulo']
+        pub_categoria = formulario.cleaned_data.get('pub_categoria', '')
+
+        publicacion_data = {'titulo': pub_titulo}
+        if pub_id:
+            publicacion_data['id'] = pub_id
+        if pub_categoria:
+            publicacion_data['categoria'] = pub_categoria
 
         Comentario.objects.create(
-            publicacion=publicacion,
+            publicacion=publicacion_data,
             usuario={
                 'id':      usuario.get('id', ''),
                 'nombre':  usuario.get('nombre', ''),
@@ -154,33 +160,104 @@ def comentar_publicacion(request):
             },
             texto=formulario.cleaned_data['texto'],
         )
-        messages.success(request, 'Comentario publicado.')
+        messages.success(request, '✅ Comentario publicado correctamente.')
+
+        # REDIRECT INTELIGENTE manteniendo el filtro de la publicación
+        if pub_id:
+            redirect_url = f"{reverse('interacciones:ver_comentarios')}?pub_id={pub_id}&pub={pub_titulo}"
+        else:
+            redirect_url = next_url
+
+        return redirect(redirect_url)
+
     else:
-        messages.error(request, 'El comentario no es válido. Mínimo 2 caracteres.')
+        messages.error(request, 'El comentario debe tener entre 2 y 300 caracteres.')
 
     return redirect(next_url)
 
 
 def ver_comentarios(request):
     pub_titulo = request.GET.get('pub', '').strip()
+    pub_id = request.GET.get('pub_id', '').strip()
 
-    if not pub_titulo:
-        messages.error(request, 'No se especificó ninguna publicación.')
-        return redirect('interacciones:home')
-
-    comentarios = [
-        c for c in Comentario.objects.filter(
-            estado=Comentario.EstadoComentarioChoices.VISIBLE
-        )
-        if c.publicacion.get('titulo') == pub_titulo
-    ]
+    comentarios = services.get_comentarios_por_publicacion(
+        pub_id=pub_id,
+        pub_titulo=pub_titulo
+    )
 
     return render(request, 'interacciones/ver_comentarios.html', {
         'comentarios': comentarios,
-        'pub_titulo':  pub_titulo,
-        'formulario':  ComentarioForm(initial={'pub_titulo': pub_titulo}),
-        'usuario':     services.get_usuario_sesion(request),
+        'pub_titulo': pub_titulo or "Publicación",
+        'pub_id': pub_id,
+        'pub_categoria': request.GET.get('pub_categoria', ''),
+        'usuario': services.get_usuario_sesion(request),
     })
+
+
+#----------------------
+#editar y eliminar comentarios (opcional, no se pide en el enunciado pero sería un plus)
+
+#-------------------
+
+def editar_comentario(request, comentario_id):
+    usuario = services.get_usuario_sesion(request)
+    if not usuario:
+        messages.warning(request, 'Debes iniciar sesión.')
+        return redirect('login')
+
+    try:
+        comentario = Comentario.objects.get(id=comentario_id)
+    except Comentario.DoesNotExist:
+        messages.error(request, 'Comentario no encontrado.')
+        return redirect(request.META.get('HTTP_REFERER', 'interacciones:home'))
+
+    if comentario.usuario.get('correo') != usuario.get('correo'):
+        messages.error(request, 'No tienes permiso para editar este comentario.')
+        return redirect(request.META.get('HTTP_REFERER', 'interacciones:home'))
+
+    if request.method == 'POST':
+        nuevo_texto = request.POST.get('texto', '').strip()
+        if 2 <= len(nuevo_texto) <= 300:
+            comentario.texto = nuevo_texto
+            comentario.save()
+            messages.success(request, 'Comentario actualizado.')
+            return redirect(request.POST.get('next', request.META.get('HTTP_REFERER', '/')))
+        else:
+            messages.error(request, 'El comentario debe tener entre 2 y 300 caracteres.')
+
+    return render(request, 'interacciones/editar_comentario.html', {
+        'comentario': comentario,
+        'next': request.META.get('HTTP_REFERER', '/')
+    })
+
+
+def eliminar_comentario(request, comentario_id):
+    usuario = services.get_usuario_sesion(request)
+    if not usuario:
+        messages.warning(request, 'Debes iniciar sesión.')
+        return redirect('login')
+
+    try:
+        comentario = Comentario.objects.get(id=comentario_id)
+    except Comentario.DoesNotExist:
+        messages.error(request, 'Comentario no encontrado.')
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    if comentario.usuario.get('correo') != usuario.get('correo'):
+        messages.error(request, 'No tienes permiso para eliminar este comentario.')
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    if request.method == 'POST':
+        comentario.delete()
+        messages.success(request, 'Comentario eliminado.')
+        return redirect(request.POST.get('next', request.META.get('HTTP_REFERER', '/')))
+
+    return render(request, 'interacciones/confirmar_eliminar_comentario.html', {
+        'comentario': comentario,
+        'next': request.META.get('HTTP_REFERER', '/')
+    })
+
+
 
 
 # ─────────────────────────────────────────────

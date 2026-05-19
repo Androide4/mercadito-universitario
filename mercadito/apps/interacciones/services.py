@@ -41,6 +41,27 @@ def set_usuario_sesion_demo(request, nombre, correo):
         'carrera':  'Demo',
     }
 
+def get_comentarios_por_publicacion(pub_id=None, pub_titulo=None):
+    """
+    Filtra comentarios por publicación de forma confiable.
+    """
+    try:
+        from .models import Comentario
+        queryset = Comentario.objects.filter(
+            estado=Comentario.EstadoComentarioChoices.VISIBLE
+        )
+
+        if pub_id:
+            # Filtrado principal recomendado (por ID)
+            queryset = queryset.filter(publicacion__id=pub_id)
+        elif pub_titulo:
+            queryset = queryset.filter(publicacion__titulo=pub_titulo)
+
+        return list(queryset.order_by('-fecha_comentario'))
+    except Exception as e:
+        print(f"[ERROR] get_comentarios_por_publicacion: {e}")
+        return []
+
 
 def get_publicaciones_activas(limite=8):
     """

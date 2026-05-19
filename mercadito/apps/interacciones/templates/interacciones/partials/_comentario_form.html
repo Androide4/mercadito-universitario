@@ -1,28 +1,34 @@
-<section class="seccion-comentar">
-  <h3>💬 Deja un comentario</h3>
+<div class="seccion-comentar">
+    <h3>💬 Deja un comentario</h3>
 
-  <form method="POST" action="{% url 'interacciones:comentar_publicacion' %}">
-    {% csrf_token %}
+    <form method="post" action="{% url 'interacciones:comentar_publicacion' %}">
+        {% csrf_token %}
 
-    <input type="hidden" name="pub_titulo"    value="{{ pub_titulo }}">
-    <input type="hidden" name="pub_categoria" value="{{ pub_categoria|default:'' }}">
-    <input type="hidden" name="next"          value="{{ next_url|default:request.path }}">
+        <input type="hidden" name="pub_id" value="{{ pub_id|default:'' }}">
+        <input type="hidden" name="pub_titulo" value="{{ pub_titulo }}">
+        {% if pub_categoria %}
+            <input type="hidden" name="pub_categoria" value="{{ pub_categoria }}">
+        {% endif %}
+        <input type="hidden" name="next" value="{{ next_url|default:request.path }}">
 
-    <div style="margin-bottom:0.5rem;">
-      <textarea
-        name="texto"
-        class="form-textarea"
-        maxlength="300"
-        minlength="2"
-        rows="3"
-        placeholder="Escribe tu comentario (máx. 300 caracteres)..."
-        required
-      ></textarea>
-      <p class="form-char-count">0 / 300</p>
-    </div>
+        {{ form.texto|safe }}
 
-    <button type="submit" class="btn btn--primario">
-      ✉️ Publicar comentario
-    </button>
-  </form>
-</section>
+        <div class="form-char-count" id="char-count">0 / 300</div>
+
+        <button type="submit" class="btn btn--primario" style="margin-top: 1rem;">
+            ✉️ Publicar comentario
+        </button>
+    </form>
+</div>
+
+<script>
+    const textarea = document.querySelector('textarea[name="texto"]');
+    const count = document.getElementById('char-count');
+    if (textarea) {
+        function updateCount() {
+            count.textContent = `${textarea.value.length} / 300`;
+        }
+        textarea.addEventListener('input', updateCount);
+        updateCount();
+    }
+</script>

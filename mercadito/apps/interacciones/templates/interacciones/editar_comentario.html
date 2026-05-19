@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Editar Comentario - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<div class="contenido-principal">
+    <a href="{{ next|default:'/interacciones/home/' }}" class="btn btn--primario" style="margin-bottom: 1.5rem;">
+        ← Volver
+    </a>
+
+    <div class="card">
+        <h2 class="pagina-titulo">✏️ Editar Comentario</h2>
+        <p style="color: var(--color-texto-suave); margin-bottom: 1.5rem;">
+            Estás editando tu comentario sobre: <strong>"{{ comentario.publicacion.titulo }}"</strong>
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mensaje mensaje--{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next|default:request.META.HTTP_REFERER }}">
+
+            <div class="form-group">
+                <label for="texto">Tu comentario</label>
+                <textarea name="texto" id="texto" rows="5" class="form-textarea" 
+                          maxlength="300" required>{{ comentario.texto }}</textarea>
+                <div class="form-char-count" id="char-count">0 / 300</div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <a href="{{ next|default:'/interacciones/home/' }}" class="btn" style="background: #757575; color: white;">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn--primario">
+                    💾 Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const textarea = document.getElementById('texto');
+    const count = document.getElementById('char-count');
+
+    function updateCount() {
+        count.textContent = `${textarea.value.length} / 300`;
+    }
+
+    textarea.addEventListener('input', updateCount);
+    updateCount();
+</script>
+
+{% endblock %}

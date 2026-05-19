@@ -9,14 +9,13 @@
     <a href="{% url 'crear_publicacion' %}" class="btn btn-primary" id="boton-crear">Nueva publicación</a>
 </section>
 
-
 {% if publicaciones %}
     <div class="tarjetas-grid">
         {% for pub in publicaciones %}
         <div class="tarjeta">
 
             <div class="tarjeta-imagen">
-                {% if pub.imagenes %}
+                {% if pub.imagenes and pub.imagenes.0 %}
                     <img src="{{ pub.imagenes.0 }}" alt="{{ pub.titulo }}">
                 {% else %}
                     <div class="sin-imagen">Sin imagen</div>
@@ -28,11 +27,10 @@
                 <span class="badge badge-categoria">{{ pub.get_categoria_display }}</span>
 
                 <h3 class="tarjeta-titulo">{{ pub.titulo }}</h3>
-
                 <p class="tarjeta-descripcion">{{ pub.descripcion|truncatechars:100 }}</p>
 
                 <div class="tarjeta-meta">
-                    <span>{{ pub.autor.nombre|default:"Autor desconocido" }}</span>
+                    <span>{{ pub.autor.nombre|default:"Usuario" }}</span>
                     <span>{% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
                 </div>
 
@@ -40,7 +38,33 @@
                     <p class="precio">{{ pub.precio_referencial }}</p>
                 {% endif %}
 
-                <a href="{% url 'detalle_publicacion' pub.id %}" class="btn btn-primary btn-sm" id="boton-crear">Ver detalle</a>
+                <!-- INTERACCIONES -->
+                <div class="tarjeta-acciones" style="margin-top: 1.25rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    
+                    <!-- Formulario Favorito INLINE -->
+                    <form method="post" action="{% url 'interacciones:guardar_favorito' %}" style="display: inline-block;">
+                        {% csrf_token %}
+                        <input type="hidden" name="pub_id" value="{{ pub.id }}">
+                        <input type="hidden" name="pub_titulo" value="{{ pub.titulo }}">
+                        <input type="hidden" name="pub_categoria" value="{{ pub.categoria }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="btn btn--favorito btn-sm">
+                            Favorito
+                        </button>
+                    </form>
+
+                    <!-- Comentar -->
+                    <a href="{% url 'interacciones:ver_comentarios' %}?pub_id={{ pub.id }}&pub={{ pub.titulo|urlencode }}" 
+                    class="btn btn-primary btn-sm" style="flex: 1; text-align: center;">
+                        Comentar
+                    </a>
+                </div>
+
+                <a href="{% url 'detalle_publicacion' pub.id %}" 
+                   class="btn btn-primary btn-sm" style="width: 100%; margin-top: 0.8rem;">
+                    Ver detalle completo →
+                </a>
+
             </div>
 
         </div>

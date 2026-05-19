@@ -1,31 +1,40 @@
-<div class="comentarios-lista" aria-label="Comentarios">
+<div class="comentarios-lista">
+    {% if comentarios %}
+        {% for comentario in comentarios %}
+            <div class="comentario-card">
+                <div class="comentario-card__avatar">
+                    {{ comentario.usuario.nombre|first|upper }}
+                </div>
+                <div class="comentario-card__cuerpo">
+                    <div class="comentario-card__nombre">
+                        {{ comentario.usuario.nombre }}
+                        {% if usuario and comentario.usuario.correo == usuario.correo %}
+                            <span>(tú)</span>
+                        {% endif %}
+                    </div>
+                    <div class="comentario-card__texto">{{ comentario.texto }}</div>
+                    <div class="comentario-card__fecha">
+                        {{ comentario.fecha_comentario|date:"d/m/Y" }} a las {{ comentario.fecha_comentario|time:"H:i" }}
+                    </div>
 
-  {% if comentarios %}
-    {% for comentario in comentarios %}
-      <article class="card comentario-card">
-
-        <div class="comentario-card__avatar" title="{{ comentario.usuario.correo }}">
-          {{ comentario.usuario.nombre|first|upper }}
+                    {% if usuario and comentario.usuario.correo == usuario.correo %}
+                    <div style="margin-top: 8px;">
+                        <a href="{% url 'interacciones:editar_comentario' comentario.id %}" class="btn btn--sm">✏️ Editar</a>
+                        <form method="post" action="{% url 'interacciones:eliminar_comentario' comentario.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="btn btn--peligro btn--sm" onclick="return confirm('¿Eliminar?')">🗑️ Eliminar</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="estado-vacio">
+            <div class="estado-vacio__icono">💬</div>
+            <div class="estado-vacio__titulo">Sin comentarios aún</div>
+            <div class="estado-vacio__desc">Sé el primero en comentar esta publicación.</div>
         </div>
-
-        <div class="comentario-card__cuerpo">
-          <span class="comentario-card__nombre">{{ comentario.usuario.nombre }}</span>
-          <p class="comentario-card__texto">{{ comentario.texto }}</p>
-          <span class="comentario-card__fecha">
-            {{ comentario.fecha_comentario|date:"d/m/Y" }}
-            a las {{ comentario.fecha_comentario|time:"H:i" }}
-          </span>
-        </div>
-
-      </article>
-    {% endfor %}
-
-  {% else %}
-    <div class="estado-vacio">
-      <div class="estado-vacio__icono">💬</div>
-      <p class="estado-vacio__titulo">Sin comentarios aún</p>
-      <p class="estado-vacio__desc">Sé el primero en comentar esta publicación.</p>
-    </div>
-  {% endif %}
-
+    {% endif %}
 </div>
