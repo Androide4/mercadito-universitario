@@ -9,7 +9,7 @@
         <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline btn-sm">
             ← Volver al listado
         </a>
-        <h1>➕ Crear Nueva Publicación</h1>
+        <h1>Crear Nueva Publicación</h1>
         <p>Completa la información del artículo que deseas publicar.</p>
     </div>
 
@@ -31,7 +31,7 @@
         {% csrf_token %}
 
         <div class="form-section">
-            <h2>📌 Información General</h2>
+            <h2>Información General</h2>
 
             <div class="form-group">
                 <label for="{{ formulario.titulo.id_for_label }}">
@@ -95,7 +95,7 @@
         </div>
 
         <div class="form-section">
-            <h2>📍 Ubicación y Etiquetas</h2>
+            <h2>Ubicación y Etiquetas</h2>
 
             <div class="form-group">
                 <label for="{{ formulario.ubicacion_entrega.id_for_label }}">
@@ -118,7 +118,7 @@
         </div>
 
         <div class="form-section">
-            <h2>🖼️ Imagen</h2>
+            <h2>Imagen</h2>
 
             <div class="form-group">
                 <label for="{{ formulario.imagen.id_for_label }}">
@@ -134,7 +134,7 @@
                 Cancelar
             </a>
             <button type="submit" class="btn btn-success">
-                💾 Guardar Publicación
+                Guardar Publicación
             </button>
         </div>
     </form>

@@ -5,8 +5,8 @@
 {% block contenido %}
 
 <section class="page-header">
-    <h1>📦 Publicaciones del Mercadito</h1>
-    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary">+ Nueva publicación</a>
+    <h1 class="page-title">Publicaciones del Mercadito</h1>
+    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary" id="boton-crear">Nueva publicación</a>
 </section>
 
 {% if publicaciones %}
@@ -18,7 +18,7 @@
                 {% if pub.imagenes and pub.imagenes.0 %}
                     <img src="{{ pub.imagenes.0 }}" alt="{{ pub.titulo }}">
                 {% else %}
-                    <div class="sin-imagen">📷 Sin imagen</div>
+                    <div class="sin-imagen">Sin imagen</div>
                 {% endif %}
             </div>
 
@@ -30,12 +30,12 @@
                 <p class="tarjeta-descripcion">{{ pub.descripcion|truncatechars:100 }}</p>
 
                 <div class="tarjeta-meta">
-                    <span>🧍 {{ pub.autor.nombre|default:"Usuario" }}</span>
-                    <span>📍 {% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
+                    <span>{{ pub.autor.nombre|default:"Usuario" }}</span>
+                    <span>{% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
                 </div>
 
                 {% if pub.precio_referencial %}
-                    <p class="precio">💲 {{ pub.precio_referencial }}</p>
+                    <p class="precio">{{ pub.precio_referencial }}</p>
                 {% endif %}
 
                 <!-- INTERACCIONES -->
@@ -49,14 +49,14 @@
                         <input type="hidden" name="pub_categoria" value="{{ pub.categoria }}">
                         <input type="hidden" name="next" value="{{ request.path }}">
                         <button type="submit" class="btn btn--favorito btn-sm">
-                            ⭐ Favorito
+                            Favorito
                         </button>
                     </form>
 
                     <!-- Comentar -->
                     <a href="{% url 'interacciones:ver_comentarios' %}?pub_id={{ pub.id }}&pub={{ pub.titulo|urlencode }}" 
                     class="btn btn-primary btn-sm" style="flex: 1; text-align: center;">
-                        💬 Comentar
+                        Comentar
                     </a>
                 </div>
 
@@ -73,7 +73,7 @@
 
 {% else %}
     <div class="sin-resultados">
-        <p>😕 No se encontraron publicaciones.</p>
+        <p>No se encontraron publicaciones.</p>
         <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline">Ver todas</a>
     </div>
 {% endif %}
