@@ -4,14 +4,21 @@
 
 {% block contenido %}
 
-<h1>Perfil</h1>
+<div class="profile-container">
 
-<p>Nombre: {{ usuario.nombre }}</p>
+    <div class="profile-card">
 
-<p>Apellido: {{ usuario.apellido }}</p>
+        <h1>Perfil</h1>
 
-<p>Correo: {{ usuario.correo }}</p>
+        <div class="profile-info">
+            <p><span>Nombre:</span> {{ usuario.nombre }}</p>
+            <p><span>Apellido:</span> {{ usuario.apellido }}</p>
+            <p><span>Correo:</span> {{ usuario.correo }}</p>
+            <p><span>Carrera:</span> {{ usuario.carrera }}</p>
+        </div>
 
-<p>Carrera: {{ usuario.carrera }}</p>
+    </div>
+
+</div>
 
 {% endblock %}

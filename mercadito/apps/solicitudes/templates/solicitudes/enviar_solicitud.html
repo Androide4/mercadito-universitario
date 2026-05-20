@@ -4,31 +4,33 @@
 
 {% block contenido %}
 
-<title>Enviar Solicitud</title>
+<div class="solicitud-form-container">
 
-<div class="contenedor">
+    <div class="solicitud-form-header">
 
-    <div class="acciones">
+        <h1>Enviar Solicitud</h1>
 
-        <a href="{% url 'lista_solicitudes' %}">
+        <a href="{% url 'lista_solicitudes' %}" class="btn-link">
             Ver Solicitudes
         </a>
 
     </div>
 
-    <h1>Enviar Solicitud</h1>
+    <div class="solicitud-form-card">
 
-    <form method="POST">
+        <form method="POST" class="solicitud-form">
 
-        {% csrf_token %}
+            {% csrf_token %}
 
-        {{ form.as_p }}
+            {{ form.as_p }}
 
-        <button type="submit">
-            Enviar Solicitud
-        </button>
+            <button type="submit">
+                Enviar Solicitud
+            </button>
 
-    </form>
+        </form>
+
+    </div>
 
 </div>
 

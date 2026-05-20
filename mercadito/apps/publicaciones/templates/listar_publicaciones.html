@@ -5,77 +5,115 @@
 {% block contenido %}
 
 <section class="page-header">
-    <h1 class="page-title">Publicaciones del Mercadito</h1>
-    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary" id="boton-crear">Nueva publicación</a>
+
+    <h1 class="page-title">Publicaciones</h1>
+
+    <a href="{% url 'crear_publicacion' %}" class="btn btn-primary">
+        Nueva publicación
+    </a>
+
 </section>
 
 {% if publicaciones %}
+
     <div class="tarjetas-grid">
+
         {% for pub in publicaciones %}
+
         <div class="tarjeta">
 
             <div class="tarjeta-imagen">
+
                 {% if pub.imagenes and pub.imagenes.0 %}
                     <img src="{{ pub.imagenes.0 }}" alt="{{ pub.titulo }}">
                 {% else %}
                     <div class="sin-imagen">Sin imagen</div>
                 {% endif %}
+
             </div>
 
             <div class="tarjeta-cuerpo">
-                <span class="badge badge-{{ pub.tipo_intercambio }}">{{ pub.get_tipo_intercambio_display }}</span>
-                <span class="badge badge-categoria">{{ pub.get_categoria_display }}</span>
 
-                <h3 class="tarjeta-titulo">{{ pub.titulo }}</h3>
-                <p class="tarjeta-descripcion">{{ pub.descripcion|truncatechars:100 }}</p>
+                <span class="badge badge-{{ pub.tipo_intercambio }}">
+                    {{ pub.get_tipo_intercambio_display }}
+                </span>
+
+                <span class="badge badge-categoria">
+                    {{ pub.get_categoria_display }}
+                </span>
+
+                <h3 class="tarjeta-titulo">
+                    {{ pub.titulo }}
+                </h3>
+
+                <p class="tarjeta-descripcion">
+                    {{ pub.descripcion|truncatechars:100 }}
+                </p>
 
                 <div class="tarjeta-meta">
+
                     <span>{{ pub.autor.nombre|default:"Usuario" }}</span>
-                    <span>{% if pub.ubicacion_entrega %}{{ pub.ubicacion_entrega }}{% else %}No especificada{% endif %}</span>
+
+                    <span>
+                        {{ pub.ubicacion_entrega|default:"No especificada" }}
+                    </span>
+
                 </div>
 
                 {% if pub.precio_referencial %}
-                    <p class="precio">{{ pub.precio_referencial }}</p>
+                    <p class="precio">
+                        {{ pub.precio_referencial }}
+                    </p>
                 {% endif %}
 
-                <!-- INTERACCIONES -->
-                <div class="tarjeta-acciones" style="margin-top: 1.25rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                    
-                    <!-- Formulario Favorito INLINE -->
-                    <form method="post" action="{% url 'interacciones:guardar_favorito' %}" style="display: inline-block;">
+                <div class="tarjeta-acciones">
+
+                    <form method="post" action="{% url 'interacciones:guardar_favorito' %}">
                         {% csrf_token %}
+
                         <input type="hidden" name="pub_id" value="{{ pub.id }}">
                         <input type="hidden" name="pub_titulo" value="{{ pub.titulo }}">
                         <input type="hidden" name="pub_categoria" value="{{ pub.categoria }}">
                         <input type="hidden" name="next" value="{{ request.path }}">
-                        <button type="submit" class="btn btn--favorito btn-sm">
+
+                        <button type="submit" class="btn btn-sm">
                             Favorito
                         </button>
+
                     </form>
 
-                    <!-- Comentar -->
-                    <a href="{% url 'interacciones:ver_comentarios' %}?pub_id={{ pub.id }}&pub={{ pub.titulo|urlencode }}" 
-                    class="btn btn-primary btn-sm" style="flex: 1; text-align: center;">
+                    <a href="{% url 'interacciones:ver_comentarios' %}?pub_id={{ pub.id }}&pub={{ pub.titulo|urlencode }}"
+                       class="btn btn-primary btn-sm">
                         Comentar
                     </a>
+
                 </div>
 
-                <a href="{% url 'detalle_publicacion' pub.id %}" 
-                   class="btn btn-primary btn-sm" style="width: 100%; margin-top: 0.8rem;">
-                    Ver detalle completo →
+                <a href="{% url 'detalle_publicacion' pub.id %}"
+                   class="btn btn-primary btn-sm">
+                    Ver detalle
                 </a>
 
             </div>
 
         </div>
+
         {% endfor %}
+
     </div>
 
 {% else %}
+
     <div class="sin-resultados">
-        <p>No se encontraron publicaciones.</p>
-        <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline">Ver todas</a>
+
+        <p>No hay publicaciones.</p>
+
+        <a href="{% url 'listar_publicaciones' %}" class="btn btn-outline">
+            Ver todas
+        </a>
+
     </div>
+
 {% endif %}
 
 {% endblock %}
