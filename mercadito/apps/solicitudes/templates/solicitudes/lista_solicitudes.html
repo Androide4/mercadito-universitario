@@ -4,81 +4,65 @@
 
 {% block contenido %}
 
-<title>Lista Solicitudes</title>
+<div class="solicitudes-container">
 
-<div class="contenedor">
+    <div class="solicitudes-header">
 
-    <div class="top">
+        <h1>Lista de Solicitudes</h1>
 
-        <a href="{% url 'enviar_solicitud' %}">
+        <a href="{% url 'enviar_solicitud' %}" class="btn-nueva">
             Nueva Solicitud
         </a>
 
     </div>
 
-    <h1>Lista de Solicitudes</h1>
+    <div class="solicitudes-grid">
 
-    {% for solicitud in solicitudes %}
+        {% for solicitud in solicitudes %}
 
-        <div class="card">
+        <div class="solicitud-card">
 
-            <h2>
-                {{ solicitud.publicacion.titulo }}
-            </h2>
+            <h2>{{ solicitud.publicacion.titulo }}</h2>
 
-            <p>
-                <strong>Categoría:</strong>
-                {{ solicitud.publicacion.categoria }}
-            </p>
+            <p><strong>Categoría:</strong> {{ solicitud.publicacion.categoria }}</p>
 
-            <p>
-                <strong>Solicitante:</strong>
-                {{ solicitud.solicitante.nombre }}
-            </p>
+            <p><strong>Solicitante:</strong> {{ solicitud.solicitante.nombre }}</p>
 
-            <p>
-                <strong>Correo:</strong>
-                {{ solicitud.solicitante.correo }}
-            </p>
+            <p><strong>Correo:</strong> {{ solicitud.solicitante.correo }}</p>
 
-            <p>
-                <strong>Estado:</strong>
-                {{ solicitud.estado_solicitud }}
-            </p>
+            <p><strong>Estado:</strong> {{ solicitud.estado_solicitud }}</p>
 
-            <p>
-                {{ solicitud.mensaje }}
-            </p>
+            <p class="mensaje">{{ solicitud.mensaje }}</p>
 
             {% if solicitud.estado_solicitud == 'pendiente' %}
 
-                <div class="botones">
+            <div class="solicitud-botones">
 
-                    <a href="{% url 'aceptar_solicitud' solicitud.id %}">
-                        Aceptar
-                    </a>
+                <a href="{% url 'aceptar_solicitud' solicitud.id %}" class="btn-aceptar">
+                    Aceptar
+                </a>
 
-                    <a href="{% url 'rechazar_solicitud' solicitud.id %}">
-                        Rechazar
-                    </a>
+                <a href="{% url 'rechazar_solicitud' solicitud.id %}" class="btn-rechazar">
+                    Rechazar
+                </a>
 
-                    <a href="{% url 'cancelar_solicitud' solicitud.id %}">
-                        Cancelar
-                    </a>
+                <a href="{% url 'cancelar_solicitud' solicitud.id %}" class="btn-cancelar">
+                    Cancelar
+                </a>
 
-                </div>
+            </div>
 
             {% else %}
 
-                <p>
-                    Solicitud procesada
-                </p>
+            <p class="procesada">Solicitud procesada</p>
 
             {% endif %}
 
         </div>
 
-    {% endfor %}
+        {% endfor %}
+
+    </div>
 
 </div>
 

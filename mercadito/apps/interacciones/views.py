@@ -6,10 +6,6 @@ from .forms import ComentarioForm
 from . import services
 
 
-# ─────────────────────────────────────────────
-# HOME
-# ─────────────────────────────────────────────
-
 def home(request):
     usuario = services.get_usuario_sesion(request)
     publicaciones = services.get_publicaciones_activas(limite=8)
@@ -33,10 +29,6 @@ def home(request):
     })
 
 
-# ─────────────────────────────────────────────
-# FAVORITOS
-# ─────────────────────────────────────────────
-
 def guardar_favorito(request):
     if request.method != 'POST':
         return redirect('interacciones:home')
@@ -55,7 +47,6 @@ def guardar_favorito(request):
         messages.error(request, 'No se pudo identificar la publicación.')
         return redirect(next_url)
 
-    # Verificar duplicado
     ya_guardado = any(
         f.usuario.get('correo') == usuario['correo']
         and f.publicacion.get('titulo') == pub_titulo
@@ -123,10 +114,6 @@ def mis_favoritos(request):
     })
 
 
-# ─────────────────────────────────────────────
-# COMENTARIOS
-# ─────────────────────────────────────────────
-
 def comentar_publicacion(request):
     if request.method != 'POST':
         return redirect('interacciones:home')
@@ -162,7 +149,6 @@ def comentar_publicacion(request):
         )
         messages.success(request, '✅ Comentario publicado correctamente.')
 
-        # REDIRECT INTELIGENTE manteniendo el filtro de la publicación
         if pub_id:
             redirect_url = f"{reverse('interacciones:ver_comentarios')}?pub_id={pub_id}&pub={pub_titulo}"
         else:
@@ -193,11 +179,6 @@ def ver_comentarios(request):
         'usuario': services.get_usuario_sesion(request),
     })
 
-
-#----------------------
-#editar y eliminar comentarios (opcional, no se pide en el enunciado pero sería un plus)
-
-#-------------------
 
 def editar_comentario(request, comentario_id):
     usuario = services.get_usuario_sesion(request)
@@ -257,12 +238,6 @@ def eliminar_comentario(request, comentario_id):
         'next': request.META.get('HTTP_REFERER', '/')
     })
 
-
-
-
-# ─────────────────────────────────────────────
-# DEMO — eliminar cuando accounts esté listo
-# ─────────────────────────────────────────────
 
 def demo_login(request):
     if request.method == 'POST':

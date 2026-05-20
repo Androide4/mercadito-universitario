@@ -4,26 +4,40 @@
 
 {% block contenido %}
 
-<h1>Login</h1>
+<div class="login-container">
 
-<form method="POST">
+    <div class="login-card">
 
-    {% csrf_token %}
+        <h1>Login</h1>
 
-    <input type="email" name="correo" placeholder="Correo">
+        <form method="POST" class="login-form">
 
-    <input type="password" name="password" placeholder="Contraseña">
+            {% csrf_token %}
 
-    <button type="submit">
-        Ingresar
-    </button>
+            <input type="email" name="correo" placeholder="Correo">
 
-    <a href="{% url 'register' %}">Registrarse</a>
+            <input type="password" name="password" placeholder="Contraseña">
 
-</form>
+            <button type="submit">
+                Ingresar
+            </button>
 
-{% if error %}
-<p>{{ error }}</p>
-{% endif %}
+        </form>
+
+        <div class="register-link">
+            <a href="{% url 'register' %}">
+                Registrarse
+            </a>
+        </div>
+
+        {% if error %}
+        <div class="login-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
 
 {% endblock %}
