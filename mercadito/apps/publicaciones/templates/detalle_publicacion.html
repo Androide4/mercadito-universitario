@@ -13,13 +13,19 @@
         </a>
 
         <div class="detalle-acciones">
+            {% if usuario and usuario.correo != publicacion.autor.correo and publicacion.estado_publicacion != 'cerrada' %}
+            <a href="{% url 'enviar_solicitud' publicacion.id %}" class="btn btn-secondary btn-sm">
+                Enviar Solicitud
+            </a>
+            {% endif %}
+            {% if usuario and usuario.correo == publicacion.autor.correo %}
             <a href="{% url 'editar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm">
                 Editar
             </a>
-
             <a href="{% url 'eliminar_publicacion' publicacion.id %}" class="btn btn-primary btn-sm">
                 Eliminar
             </a>
+            {% endif %}
         </div>
 
     </div>
@@ -30,13 +36,13 @@
 
             {% if publicacion.imagenes %}
 
-                {% for imagen in publicacion.imagenes %}
-                    <img src="{{ imagen }}" class="detalle-img">
-                {% endfor %}
+            {% for imagen in publicacion.imagenes %}
+            <img src="{{ imagen }}" class="detalle-img">
+            {% endfor %}
 
             {% else %}
 
-                <div class="sin-imagen grande">Sin imágenes</div>
+            <div class="sin-imagen grande">Sin imágenes</div>
 
             {% endif %}
 
@@ -69,9 +75,9 @@
             </h1>
 
             {% if publicacion.precio_referencial %}
-                <p class="precio grande">
-                    {{ publicacion.precio_referencial }}
-                </p>
+            <p class="precio grande">
+                {{ publicacion.precio_referencial }}
+            </p>
             {% endif %}
 
             <div class="seccion">
@@ -109,7 +115,7 @@
                 <div class="tags-grupo">
 
                     {% for tag in publicacion.tags %}
-                        <span class="tag">{{ tag }}</span>
+                    <span class="tag">{{ tag }}</span>
                     {% endfor %}
 
                 </div>
@@ -126,7 +132,7 @@
                 <p>{{ publicacion.autor.correo }}</p>
 
                 {% if publicacion.autor.carrera %}
-                    <p>{{ publicacion.autor.carrera }}</p>
+                <p>{{ publicacion.autor.carrera }}</p>
                 {% endif %}
 
                 <p class="fecha-pub">
@@ -134,9 +140,9 @@
                 </p>
 
                 {% if publicacion.fecha_actualizacion %}
-                    <p class="fecha-pub">
-                        {{ publicacion.fecha_actualizacion|date:"d/m/Y H:i" }}
-                    </p>
+                <p class="fecha-pub">
+                    {{ publicacion.fecha_actualizacion|date:"d/m/Y H:i" }}
+                </p>
                 {% endif %}
 
             </div>

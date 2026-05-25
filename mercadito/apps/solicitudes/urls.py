@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
 
     path(
-        'enviar/',
+        'enviar/<str:publicacion_id>/',
         views.enviar_solicitud,
         name='enviar_solicitud'
     ),
@@ -31,5 +31,11 @@ urlpatterns = [
         'cancelar/<str:solicitud_id>/',
         views.cancelar_solicitud,
         name='cancelar_solicitud'
+    ),
+
+    path(
+        'responder/<str:solicitud_id>/',
+        views.responder_solicitud,
+        name='responder_solicitud'
     ),
 ]

@@ -19,15 +19,21 @@
     <div class="solicitud-form-card">
 
         <form method="POST" class="solicitud-form">
-
             {% csrf_token %}
 
-            {{ form.as_p }}
+            <p>
+                <label>Mensaje:</label>
+                {{ form.mensaje }}
+            </p>
 
-            <button type="submit">
-                Enviar Solicitud
-            </button>
+            {% if tipo == 'intercambio' %}
+            <p>
+                <label>Propuesta intercambio:</label>
+                {{ form.propuesta_intercambio }}
+            </p>
+            {% endif %}
 
+            <button type="submit">Enviar Solicitud</button>
         </form>
 
     </div>

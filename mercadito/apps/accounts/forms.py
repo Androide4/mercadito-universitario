@@ -8,6 +8,7 @@ class RegistroForm(forms.ModelForm):
             'placeholder': 'Contraseña'
         })
     )
+    foto_perfil = forms.ImageField(required=False)
 
     class Meta:
         model = Usuario
@@ -19,5 +20,6 @@ class RegistroForm(forms.ModelForm):
             'carrera',
             'semestre',
             'telefono',
-            'descripcion'
+            'descripcion',
+            'foto_perfil'
         ]

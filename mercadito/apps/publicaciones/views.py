@@ -12,7 +12,10 @@ def listar_publicaciones(request):
         return redirect('/')
     
     publicaciones = Publicacion.objects.filter(
-        estado_publicacion=Publicacion.EstadoPublicacionChoices.ACTIVA
+        estado_publicacion__in=[
+            Publicacion.EstadoPublicacionChoices.ACTIVA,
+            Publicacion.EstadoPublicacionChoices.CERRADA,
+        ]
     ).order_by('-fecha_publicacion')
  
     data = {

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block titulo %}Responder Solicitud - Mercadito{% endblock %}
+
+{% block contenido %}
+
+<div class="solicitud-form-container">
+
+    <div class="solicitud-form-header">
+        <h1>Responder Solicitud</h1>
+    </div>
+
+    <div class="solicitud-form-card">
+
+        <p><strong>Publicación:</strong> {{ solicitud.publicacion.titulo }}</p>
+        <p><strong>Solicitante:</strong> {{ solicitud.solicitante.nombre }}</p>
+        <p><strong>Mensaje:</strong> {{ solicitud.mensaje }}</p>
+
+        <form method="POST" class="solicitud-form">
+            {% csrf_token %}
+            <p>
+                <label>Respuesta:</label>
+                <textarea name="respuesta" rows="5">{{ solicitud.respuesta }}</textarea>
+            </p>
+            <button type="submit">Enviar Respuesta</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

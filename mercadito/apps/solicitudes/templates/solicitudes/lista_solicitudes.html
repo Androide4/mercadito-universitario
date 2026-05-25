@@ -7,19 +7,14 @@
 <div class="solicitudes-container">
 
     <div class="solicitudes-header">
-
         <h1>Lista de Solicitudes</h1>
-
-        <a href="{% url 'enviar_solicitud' %}" class="btn-nueva">
-            Nueva Solicitud
-        </a>
-
     </div>
 
+    <h2>Recibidas</h2>
+
+    {% if recibidas %}
     <div class="solicitudes-grid">
-
-        {% for solicitud in solicitudes %}
-
+        {% for solicitud in recibidas %}
         <div class="solicitud-card">
 
             <h2>{{ solicitud.publicacion.titulo }}</h2>
@@ -30,39 +25,85 @@
 
             <p><strong>Correo:</strong> {{ solicitud.solicitante.correo }}</p>
 
-            <p><strong>Estado:</strong> {{ solicitud.estado_solicitud }}</p>
+            <p><strong>Estado:</strong> {{ solicitud.get_estado_solicitud_display }}</p>
 
+            <p><strong>Mensaje:</strong></p>
             <p class="mensaje">{{ solicitud.mensaje }}</p>
 
+            {% if solicitud.propuesta_intercambio %}
+            <p><strong>Propuesta:</strong> {{ solicitud.propuesta_intercambio }}</p>
+            {% endif %}
+
+            <p><strong>Fecha:</strong> {{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}</p>
+
+            {% if solicitud.respuesta %}
+            <p><strong>Respuesta:</strong> {{ solicitud.respuesta }}</p>
+            {% endif %}
+
+            {% if solicitud.fecha_respuesta %}
+            <p><strong>Fecha respuesta:</strong> {{ solicitud.fecha_respuesta|date:"d/m/Y H:i" }}</p>
+            {% endif %}
+
             {% if solicitud.estado_solicitud == 'pendiente' %}
-
             <div class="solicitud-botones">
-
-                <a href="{% url 'aceptar_solicitud' solicitud.id %}" class="btn-aceptar">
-                    Aceptar
-                </a>
-
-                <a href="{% url 'rechazar_solicitud' solicitud.id %}" class="btn-rechazar">
-                    Rechazar
-                </a>
-
-                <a href="{% url 'cancelar_solicitud' solicitud.id %}" class="btn-cancelar">
-                    Cancelar
-                </a>
-
+                <a href="{% url 'aceptar_solicitud' solicitud.id %}" class="btn-aceptar">Aceptar</a>
+                <a href="{% url 'rechazar_solicitud' solicitud.id %}" class="btn-rechazar">Rechazar</a>
             </div>
-
             {% else %}
-
-            <p class="procesada">Solicitud procesada</p>
-
+            <p class="procesada">Solicitud {{ solicitud.get_estado_solicitud_display }}</p>
             {% endif %}
 
         </div>
-
         {% endfor %}
-
     </div>
+    {% else %}
+    <p>No tienes solicitudes recibidas.</p>
+    {% endif %}
+
+    <h2>Enviadas</h2>
+
+    {% if enviadas %}
+    <div class="solicitudes-grid">
+        {% for solicitud in enviadas %}
+        <div class="solicitud-card">
+
+            <h2>{{ solicitud.publicacion.titulo }}</h2>
+
+            <p><strong>Categoría:</strong> {{ solicitud.publicacion.categoria }}</p>
+
+            <p><strong>Estado:</strong> {{ solicitud.get_estado_solicitud_display }}</p>
+
+            <p><strong>Mensaje:</strong></p>
+            <p class="mensaje">{{ solicitud.mensaje }}</p>
+
+            {% if solicitud.propuesta_intercambio %}
+            <p><strong>Propuesta:</strong> {{ solicitud.propuesta_intercambio }}</p>
+            {% endif %}
+
+            <p><strong>Fecha:</strong> {{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}</p>
+
+            {% if solicitud.respuesta %}
+            <p><strong>Respuesta:</strong> {{ solicitud.respuesta }}</p>
+            {% endif %}
+
+            {% if solicitud.fecha_respuesta %}
+            <p><strong>Fecha respuesta:</strong> {{ solicitud.fecha_respuesta|date:"d/m/Y H:i" }}</p>
+            {% endif %}
+
+            {% if solicitud.estado_solicitud == 'pendiente' %}
+            <div class="solicitud-botones">
+                <a href="{% url 'cancelar_solicitud' solicitud.id %}" class="btn-cancelar">Cancelar</a>
+            </div>
+            {% else %}
+            <p class="procesada">Solicitud {{ solicitud.get_estado_solicitud_display }}</p>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No tienes solicitudes enviadas.</p>
+    {% endif %}
 
 </div>
 

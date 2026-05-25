@@ -9,31 +9,24 @@ def usuario_autenticado(request):
 
     return request.session.get('usuario_id')
 
+# views.py
 def register(request):
-
     if request.method == 'POST':
-
-        form = RegistroForm(request.POST)
+        form = RegistroForm(request.POST, request.FILES)
 
         if form.is_valid():
-
             usuario = form.save(commit=False)
+            usuario.password = make_password(form.cleaned_data['password'])
 
-            usuario.password = make_password(
-                form.cleaned_data['password']
-            )
+            if 'foto_perfil' in request.FILES:
+                usuario.foto_perfil = guardar_imagen(request.FILES['foto_perfil'])
 
             usuario.save()
-
             return redirect('login')
-
     else:
-
         form = RegistroForm()
 
-    return render(request, 'accounts/register.html', {
-        'form': form
-    })
+    return render(request, 'accounts/register.html', {'form': form})
 
 
 def login_view(request):

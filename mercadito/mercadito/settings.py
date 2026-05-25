@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'mercadito.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_backend',
-        'HOST': 'mongodb://localhost:27017/',
+        'HOST': 'mongodb+srv://sguerrero26:esga0526@cluster.spqn3ma.mongodb.net/?appName=Cluster',
         'NAME': 'mercadito_db',
     },
 }

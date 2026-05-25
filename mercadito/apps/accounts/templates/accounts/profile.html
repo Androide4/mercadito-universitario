@@ -10,11 +10,32 @@
 
         <h1>Perfil</h1>
 
+        {% if usuario.foto_perfil %}
+        <div class="profile-foto">
+            <img src="{{ usuario.foto_perfil }}" alt="Foto de perfil">
+        </div>
+        {% endif %}
+
         <div class="profile-info">
             <p><span>Nombre:</span> {{ usuario.nombre }}</p>
             <p><span>Apellido:</span> {{ usuario.apellido }}</p>
             <p><span>Correo:</span> {{ usuario.correo }}</p>
             <p><span>Carrera:</span> {{ usuario.carrera }}</p>
+            {% if usuario.semestre %}
+            <p><span>Semestre:</span> {{ usuario.semestre }}</p>
+            {% endif %}
+            {% if usuario.telefono %}
+            <p><span>Teléfono:</span> {{ usuario.telefono }}</p>
+            {% endif %}
+            {% if usuario.descripcion %}
+            <p><span>Descripción:</span> {{ usuario.descripcion }}</p>
+            {% endif %}
+            <p><span>Rol:</span> {{ usuario.get_rol_display }}</p>
+            <p><span>Estado:</span> {{ usuario.get_estado_display }}</p>
+            <p><span>Miembro desde:</span> {{ usuario.fecha_creacion|date:"d/m/Y" }}</p>
+            {% if usuario.ultima_sesion %}
+            <p><span>Última sesión:</span> {{ usuario.ultima_sesion|date:"d/m/Y H:i" }}</p>
+            {% endif %}
         </div>
 
     </div>
